@@ -13,6 +13,29 @@ module Jira
       end
     end
 
+    desc "commentd", "Delete a comment to the input ticket"
+    def commentd(ticket=Jira::Core.ticket)
+      if self.io.agree("List comments for ticket #{ticket}")
+        comments(ticket)
+      end
+      idx = self.get_comment_idx("delete")
+      if idx < 0
+        puts "No comment deleted."
+        return
+      end
+      self.api.get("issue/#{ticket}") do |json|
+        comments = json['fields']['comment']['comments']
+        if idx < comments.count
+          id = comments[idx]['id']
+          self.api.delete("issue/#{ticket}/comment/#{id}") do |json|
+            puts "Successfully deleted your comment."
+            return
+          end
+        end
+      end
+      puts "No comment deleted."
+    end
+
     desc "comments", "Lists the comments of the input ticket"
     def comments(ticket=Jira::Core.ticket)
       self.api.get("issue/#{ticket}") do |json|
@@ -39,7 +62,7 @@ module Jira
       if self.io.agree("List comments for ticket #{ticket}")
         comments(ticket)
       end
-      idx = self.get_comment_idx
+      idx = self.get_comment_idx("update")
       if idx < 0
         puts "No comment updated."
         return
@@ -51,10 +74,12 @@ module Jira
       end
       self.api.get("issue/#{ticket}") do |json|
         comments = json['fields']['comment']['comments']
-        id = comments[idx]['id']
-        self.api.put("issue/#{ticket}/comment/#{id}", { body: comment }) do |json|
-          puts "Successfully updated your comment."
-          return
+        if idx < comments.count
+          id = comments[idx]['id']
+          self.api.put("issue/#{ticket}/comment/#{id}", { body: comment }) do |json|
+            puts "Successfully updated your comment."
+            return
+          end
         end
       end
       puts "No comment updated."
@@ -87,17 +112,17 @@ module Jira
       # Prompts the user for a comment index, then returns the
       # comment index; failure is < 0
       #
+      # @param description [String] describes the user prompt
+      #
       # @return idx [Integer] asked comment index
       #
-      def get_comment_idx
-        idx = self.io.ask("Index for comment to update (default last)")
-        if idx.empty?
-          idx = comments.count - 1
-        else
+      def get_comment_idx(description = "")
+        idx = self.io.ask("Index for comment to #{description} (default last)").strip
+        if !idx.empty?
           idx = idx.to_i
-        end
-        if idx <= 0 or idx >= comments.count
-          idx = -1
+          if idx < 0
+            idx = -1
+          end
         end
         idx
       end
