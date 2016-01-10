@@ -4,13 +4,13 @@ module Jira
     desc "comment", "Add a comment to the input ticket"
     def comment(ticket=Jira::Core.ticket)
       comment = self.get_comment_body(ticket)
-      if comment.empty?
-        puts "No comment posted."
-      else
+      if !comment.empty?
         self.api.post("issue/#{ticket}/comment", { body: comment }) do |json|
           puts "Successfully posted your comment."
+          return
         end
       end
+      puts "No comment posted."
     end
 
     desc "commentd", "Delete a comment to the input ticket"
