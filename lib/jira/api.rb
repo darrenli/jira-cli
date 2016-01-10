@@ -27,7 +27,7 @@ module Jira
     protected
 
       #
-      # Defines the API GET, POST, PUT interaction methods
+      # Defines the API DELETE, GET, POST, PUT interaction methods
       #
       def define_actions
         #
