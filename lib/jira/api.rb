@@ -33,7 +33,7 @@ module Jira
         #
         # def method(path, params={})
         #
-        # Issue an API GET, POST, or PUT request and return parse JSON
+        # Issue an API DELETE, GET, POST, or PUT request and return parse JSON
         #
         # @param path [String] API path
         # @param params [Hash] params to send
@@ -42,7 +42,7 @@ module Jira
         #
         # @return [JSON] parased API response
         #
-        [:get, :post, :put].each do |method|
+        [:delete, :get, :post, :put].each do |method|
           self.class.send(:define_method, method) do |path, params=nil, verbose=true, &block|
             params = params.to_json if !params.nil?
             response = @client.send(
