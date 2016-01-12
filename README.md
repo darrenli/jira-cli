@@ -18,7 +18,7 @@ Ruby gem CLI tool used to manage JIRA workflows leveraging git
     jira comments        # Lists the comments of the input ticket
     jira commentu        # Update a comment to the input ticket
     jira commit          # Commits uncommitted work with the ticket name and summary.
-    jira delete          # Deletes a ticket in Jira and the git branch
+    jira delete          # Deletes a ticket in JIRA and the git branch
     jira describe        # Describes the input ticket
     jira install         # Guides the user through JIRA installation
     jira log             # Logs work against the input ticket
