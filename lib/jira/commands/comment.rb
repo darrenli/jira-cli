@@ -117,12 +117,14 @@ module Jira
       # @return idx [Integer] asked comment index
       #
       def get_comment_idx(description = "")
-        idx = self.io.ask("Index for comment to #{description} (default last)").strip
+        idx = self.io.ask("Index for comment to #{description}").strip
         if !idx.empty?
           idx = idx.to_i
           if idx < 0
             idx = -1
           end
+        else
+          idx = -1
         end
         idx
       end
