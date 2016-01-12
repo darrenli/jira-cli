@@ -43,7 +43,7 @@ module Jira
         if comments.count > 0
           comments.each do |comment|
             author = comment['author']['displayName']
-            time = Time.parse(comment['created'])
+            time = Time.parse(comment['updated'])
             body = comment['body']
 
             printf "[%2d]", comments.index(comment)
@@ -52,7 +52,7 @@ module Jira
                  "#{Jira::Format.comment(body)}"
           end
         else
-          puts "There are no comments on issue #{ticket}."
+          puts "There are no comments on ticket #{ticket}."
         end
       end
     end
