@@ -11,20 +11,26 @@ Ruby gem CLI tool used to manage JIRA workflows leveraging git
 ### Available Commands
 
     jira all             # Describes all local branches that match JIRA ticketing syntax
+    jira assign          # Assign a ticket to a user
     jira attachments     # View ticket attachments
-    jira browse          # Opens the current input ticket in your browser
     jira comment         # Add a comment to the input ticket
+    jira commentd        # Delete a comment to the input ticket
     jira comments        # Lists the comments of the input ticket
+    jira commentu        # Update a comment to the input ticket
     jira commit          # Commits uncommitted work with the ticket name and summary.
-    jira clipboard       # Copies the url of the JIRA ticket into the clipboard
+    jira delete          # Deletes a ticket in Jira and the git branch
     jira describe        # Describes the input ticket
     jira install         # Guides the user through JIRA installation
     jira log             # Logs work against the input ticket
+    jira logd            # Deletes work against the input ticket
+    jira logs            # Lists work against the input ticket
+    jira logu            # Updates work against the input ticket
     jira new             # Creates a new ticket in JIRA and checks out the git branch
     jira rename          # Updates the summary of the input ticket
-    jira sprint          # Lists all tickets in active sprint
     jira transition      # Transitions the input ticket to the next state
+    jira unwatch         # Unwatch against the input ticket
     jira version         # Displays the version
+    jira watch           # Watch against the input ticket
     jira help [COMMAND]  # Describe available commands or one specific command
 
 ### Gem Installation
