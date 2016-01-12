@@ -3,10 +3,34 @@ module Jira
 
     desc "log", "Logs work against the input ticket"
     def log(ticket=Jira::Core.ticket)
-      time_spent = self.io.ask("Time spent on #{ticket}")
+      time_spent = self.io.ask("Time spent on ticket #{ticket}")
       self.api.post("issue/#{ticket}/worklog", { timeSpent: time_spent }) do |json|
-        puts "Successfully logged #{time_spent} on #{ticket}."
+        puts "Successfully logged #{time_spent} on ticket #{ticket}."
       end
+    end
+
+    desc "logd", "Deletes work against the input ticket"
+    def logd(ticket=Jira::Core.ticket)
+      if self.io.agree("List worklogs for ticket #{ticket}")
+        logs(ticket)
+      end
+      idx = self.get_worklog_idx("delete")
+      if idx < 0
+        puts "No worklog deleted."
+        return
+      end
+      self.api.get("issue/#{ticket}/worklog") do |json|
+        worklogs = json['worklogs']
+        if idx < worklogs.count
+          id = worklogs[idx]['id']
+          time_spent = worklogs[idx]['timeSpent']
+          self.api.delete("issue/#{ticket}/worklog/#{id}") do |json|
+            puts "Successfully deleted #{time_spent} on #{ticket}"
+            return
+          end
+        end
+      end
+      puts "No worklog deleted."
     end
 
     desc "logs", "Lists work against the input ticket"
@@ -40,7 +64,7 @@ module Jira
         puts "No worklog updated."
         return
       end
-      time_spent = self.io.ask("Time spent on #{ticket}").strip
+      time_spent = self.io.ask("Time spent on ticket #{ticket}").strip
       if time_spent.empty?
         puts "No worklog updated."
         return
@@ -50,7 +74,7 @@ module Jira
         if idx < worklogs.count
           id = worklogs[idx]['id']
           self.api.put("issue/#{ticket}/worklog/#{id}", { timeSpent: time_spent }) do |json|
-            puts "Successfully updated #{time_spent} on #{ticket}."
+            puts "Successfully updated #{time_spent} on ticket #{ticket}."
             return
           end
         end
