@@ -128,5 +128,6 @@ module Jira
         end
         idx
       end
+
   end
 end

@@ -14,5 +14,6 @@ module Jira
       end
       puts "No ticket assigned."
     end
+
   end
 end
