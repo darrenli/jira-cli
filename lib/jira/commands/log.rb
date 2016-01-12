@@ -25,7 +25,7 @@ module Jira
           id = worklogs[idx]['id']
           time_spent = worklogs[idx]['timeSpent']
           self.api.delete("issue/#{ticket}/worklog/#{id}") do |json|
-            puts "Successfully deleted #{time_spent} on #{ticket}"
+            puts "Successfully deleted #{time_spent} on ticket #{ticket}"
             return
           end
         end
