@@ -27,10 +27,15 @@ Ruby gem CLI tool used to manage JIRA workflows leveraging git
     jira logu            # Updates work against the input ticket
     jira new             # Creates a new ticket in JIRA and checks out the git branch
     jira rename          # Updates the summary of the input ticket
+    jira tickets         # List the tickets of the input username
     jira transition      # Transitions the input ticket to the next state
+    jira unvote          # Unvote against the input ticket
     jira unwatch         # Unwatch against the input ticket
     jira version         # Displays the version
+    jira vote            # Vote against the input ticket
+    jira votes           # List the votes of the input ticket
     jira watch           # Watch against the input ticket
+    jira watchers        # List the watchers of the input ticket
     jira help [COMMAND]  # Describe available commands or one specific command
 
 ### Gem Installation
